@@ -1,47 +1,7 @@
-<script setup lang="ts">
-import Form from './views/Form.vue';
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <Form></Form>
+  <router-view></router-view>
 </template>
 
-<style>
-/* Amber Light scheme (Default) */
-/* Can be forced with data-theme="light" */
-[data-theme='light'],
-:root:not([data-theme='dark']) {
-  --primary: #ffb300;
-  --primary-hover: #ffa000;
-  --primary-focus: rgba(255, 179, 0, 0.125);
-  --primary-inverse: rgba(0, 0, 0, 0.75);
-}
-
-/* Amber Dark scheme (Auto) */
-/* Automatically enabled if user has Dark mode enabled */
-@media only screen and (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --primary: #ffb300;
-    --primary-hover: #ffc107;
-    --primary-focus: rgba(255, 179, 0, 0.25);
-    --primary-inverse: rgba(0, 0, 0, 0.75);
-  }
-}
-
-/* Amber Dark scheme (Forced) */
-/* Enabled if forced with data-theme="dark" */
-[data-theme='dark'] {
-  --primary: #ffb300;
-  --primary-hover: #ffc107;
-  --primary-focus: rgba(255, 179, 0, 0.25);
-  --primary-inverse: rgba(0, 0, 0, 0.75);
-}
-
-/* Amber (Common styles) */
-:root {
-  --form-element-active-border-color: var(--primary);
-  --form-element-focus-color: var(--primary-focus);
-  --switch-color: var(--primary-inverse);
-  --switch-checked-background-color: var(--primary);
-}
-</style>
+<style></style>
