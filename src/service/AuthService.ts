@@ -9,13 +9,9 @@ class AuthService {
     signup: string;
 
     constructor() {
-        this.admin = '/admin';
+        this.admin = '/auth';
         this.signin = '/signin';
         this.signup = '/signup';
-    }
-
-    getAll(): Promise<any> {
-        return http.get(this.admin);
     }
 
     login(user: IUser): Promise<any> {

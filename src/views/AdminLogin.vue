@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import '@picocss/pico/css/pico.min.css';
 import { reactive } from 'vue';
-import AuthService from '../api/AuthService';
+import AuthService from '../service/AuthService';
 import IUser from '../types/User';
 import IResponse from '../types/Response';
+import router from '../router';
 
 const data: IUser = reactive({
     account: '',
@@ -14,13 +15,18 @@ const submitData = () => {
     AuthService.login(data)
         .then((response: any) => {
             const res: IResponse = response.data;
-            if (res.code === '0') {
+            const { code, token } = res;
+            if (code === '0') {
+                localStorage.setItem('token', token as string);
                 alert('登录成功');
+                setTimeout(() => {
+                    router.push('list');
+                }, 1000);
             } else {
                 alert('账号或密码错误');
             }
         })
-        .catch((e: any) => {
+        .catch((e: string) => {
             alert(e);
         });
 };

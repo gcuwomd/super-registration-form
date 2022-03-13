@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import '@picocss/pico/css/pico.min.css';
 import { reactive } from 'vue';
-import AuthService from '../api/AuthService';
+import AuthService from '../service/AuthService';
 import IResponse from '../types/Response';
 
 interface IForm {
