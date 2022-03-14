@@ -1,25 +1,23 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { onMounted, ref } from 'vue';
+import FormService from '../service/FormService';
 import '@picocss/pico/css/pico.min.css';
+import IResponse from '../types/Response';
+import IForm from '../types/Form';
 
-interface IData {
-    id: string;
-    name: string;
-    college: string;
-}
+const dataList = ref<IForm[]>();
 
-const data: IData = reactive({
-    id: '202010089240',
-    name: '小明',
-    college: '计算机工程学院',
+onMounted(() => {
+    FormService.getAll()
+        .then((response: any) => {
+            const res: IResponse = response.data;
+
+            dataList.value = res.data as IForm[];
+        })
+        .catch((error) => {
+            alert(error);
+        });
 });
-const data1: IData = reactive({
-    id: '202010089287',
-    name: '小鹏',
-    college: '计算机工程学院',
-});
-
-const dataList: IData[] = [data, data1];
 </script>
 
 <template>
@@ -32,16 +30,22 @@ const dataList: IData[] = [data, data1];
                     <th scope="col">学号</th>
                     <th scope="col">姓名</th>
                     <th scope="col">学院</th>
+                    <th scope="col">班级</th>
+                    <th scope="col">报名时间</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item, index) in dataList" :key="index">
-                    <th scope="row">{{ index + 1 }}</th>
+                <tr v-for="(data, index) in dataList" :key="index">
+                    <td>{{ index + 1 }}</td>
                     <td>
-                        <a href="#">{{ item.id }}</a>
+                        <router-link :to="`/details/${data.account}`">{{
+                            data.account
+                        }}</router-link>
                     </td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.college }}</td>
+                    <td>{{ data.name }}</td>
+                    <td>{{ data.academy }}</td>
+                    <td>{{ data.class }}</td>
+                    <td>{{ data.time }}</td>
                 </tr>
             </tbody>
         </table>
