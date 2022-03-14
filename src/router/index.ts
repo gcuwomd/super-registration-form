@@ -26,12 +26,12 @@ const routes: Array<RouteRecordRaw> = [
         },
     },
     {
-        path: '/details',
+        path: '/details/:account',
         name: 'details',
         component: Details,
         meta: {
             title: 'details',
-            url: '/details',
+            url: '/details/:account',
         },
     },
     {

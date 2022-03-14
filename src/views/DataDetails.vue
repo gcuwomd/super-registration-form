@@ -1,22 +1,48 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import '@picocss/pico/css/pico.min.css';
+import { useRoute } from 'vue-router';
+import FormService from '../service/FormService';
+import IForm from '../types/Form';
+import IResponse from '../types/Response';
 
-interface IDetails {
-    id: string;
-    name: string;
-    college: string;
-    intention: string;
-    introduction: string;
-}
+const route = useRoute();
+const { account } = route.params;
 
-const data: IDetails = reactive({
-    id: '202010089240',
-    name: '小明',
-    college: '计算机工程学院',
-    intention: '网站运维部',
-    introduction:
-        '考不上高中的小明,社交恐怖分子，阿巴阿巴阿巴阿巴阿巴阿巴，这是一大串自我介绍，此处省略一万字',
+const form: IForm = reactive({
+    id: '',
+    account: '',
+    name: '',
+    academy: '',
+    class: '',
+    first_choice: '',
+    second_choice: '',
+    introduction: '',
+    image: '',
+    time: '',
+});
+
+onMounted(() => {
+    FormService.get(account as string)
+        .then((response: any) => {
+            const res: IResponse = response.data;
+            const result = res.data as IForm[];
+            const data = result[0];
+
+            form.id = data.id;
+            form.account = data.account;
+            form.name = data.name;
+            form.academy = data.academy;
+            form.class = data.class;
+            form.first_choice = data.first_choice;
+            form.second_choice = data.second_choice;
+            form.introduction = data.introduction;
+            form.image = data.image;
+            form.time = data.time;
+        })
+        .catch((error) => {
+            alert(error);
+        });
 });
 </script>
 
@@ -28,27 +54,27 @@ const data: IDetails = reactive({
                 <tbody>
                     <tr>
                         <td>头像</td>
-                        <td><img src="../assets/logo.png" alt="" /></td>
+                        <td><img :src="form.image" alt="" /></td>
                     </tr>
                     <tr>
                         <td>学号</td>
-                        <td>{{ data.id }}</td>
+                        <td>{{ form.account }}</td>
                     </tr>
                     <tr>
                         <td>姓名</td>
-                        <td>{{ data.name }}</td>
+                        <td>{{ form.name }}</td>
                     </tr>
                     <tr>
                         <td>学院</td>
-                        <td>{{ data.college }}</td>
+                        <td>{{ form.academy }}</td>
                     </tr>
                     <tr>
                         <td>意向部门</td>
-                        <td>{{ data.intention }}</td>
+                        <td>{{ form.first_choice }}</td>
                     </tr>
                     <tr>
                         <td>自我介绍</td>
-                        <td>{{ data.introduction }}</td>
+                        <td>{{ form.introduction }}</td>
                     </tr>
                 </tbody>
             </table>
