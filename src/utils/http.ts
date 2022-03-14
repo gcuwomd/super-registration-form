@@ -33,6 +33,7 @@ api.interceptors.response.use(
         // 2xx 外的状态码
         if (error.response.status === 401) {
             localStorage.removeItem('token');
+
             router.push('/signin');
         }
         return Promise.reject(error);
