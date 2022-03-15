@@ -26,6 +26,7 @@ onMounted(() => {
     FormService.get(account as string)
         .then((response: any) => {
             const res: IResponse = response.data;
+
             const result = res.data as IForm[];
             const data = result[0];
 
@@ -69,12 +70,24 @@ onMounted(() => {
                         <td>{{ form.academy }}</td>
                     </tr>
                     <tr>
-                        <td>意向部门</td>
+                        <td>班级</td>
+                        <td>{{ form.class }}</td>
+                    </tr>
+                    <tr>
+                        <td>第一志愿</td>
+                        <td>{{ form.first_choice }}</td>
+                    </tr>
+                    <tr>
+                        <td>第二志愿</td>
                         <td>{{ form.first_choice }}</td>
                     </tr>
                     <tr>
                         <td>自我介绍</td>
                         <td>{{ form.introduction }}</td>
+                    </tr>
+                    <tr>
+                        <td>提交时间</td>
+                        <td>{{ form.time }}</td>
                     </tr>
                 </tbody>
             </table>
