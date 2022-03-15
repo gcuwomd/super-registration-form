@@ -1,14 +1,8 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import '@picocss/pico/css/pico.min.css';
+import IForm from '../types/Form';
 
-interface IForm {
-    id: string;
-    name: string;
-    college: string;
-    introduciton: string;
-    condition: boolean;
-}
 interface IStatus {
     show: boolean;
     validId: string;
@@ -18,10 +12,12 @@ interface IStatus {
     close: any;
     showModal: any;
 }
+
 interface IModal {
     title: string;
     content: string;
 }
+
 const renderList: string[] = [
     '计算机工程学院',
     '管理学院',
@@ -31,9 +27,14 @@ const renderList: string[] = [
 
 const data: IForm = reactive({
     id: '',
+    account: '',
     name: '',
-    college: '',
-    introduciton: '',
+    academy: '',
+    class: '',
+    first_choice: '',
+    second_choice: '',
+    introduction: '',
+    image: '',
     condition: false,
 });
 
@@ -77,14 +78,14 @@ const submitData = () => {
     }
 
     // college
-    if (data.college === '') {
+    if (data.academy === '') {
         status.showModal('注意', '请选择你的学院!');
         status.allowPost = false;
     }
 
     // introduciton
 
-    if (data.introduciton.length < 10) {
+    if (data.introduction.length < 10) {
         status.validIntroduction = 'true';
         status.allowPost = false;
     } else {
