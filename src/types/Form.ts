@@ -6,6 +6,7 @@ export default interface IForm {
     class: string;
     first_choice: string;
     second_choice: string;
+    phone: string;
     introduction: string;
     image: string;
     condition?: boolean;

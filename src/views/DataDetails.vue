@@ -17,6 +17,7 @@ const form: IForm = reactive({
     class: '',
     first_choice: '',
     second_choice: '',
+    phone: '',
     introduction: '',
     image: '',
     time: '',
@@ -49,7 +50,7 @@ onMounted(() => {
 
 <template>
     <div class="container centera">
-        <h1>报名信息</h1>
+        <h3>报名信息</h3>
         <article>
             <table>
                 <tbody>
@@ -80,6 +81,10 @@ onMounted(() => {
                     <tr>
                         <td>第二志愿</td>
                         <td>{{ form.first_choice }}</td>
+                    </tr>
+                    <tr>
+                        <td>联系电话</td>
+                        <td>{{ form.phone }}</td>
                     </tr>
                     <tr>
                         <td>自我介绍</td>
