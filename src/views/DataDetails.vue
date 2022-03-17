@@ -72,15 +72,15 @@ onMounted(() => {
                     </tr>
                     <tr>
                         <td>班级</td>
-                        <td>{{ form.class }}</td>
+                        <td>{{ form.sclass }}</td>
                     </tr>
                     <tr>
                         <td>第一志愿</td>
-                        <td>{{ form.first_choice }}</td>
+                        <td>{{ form.firstChoice }}</td>
                     </tr>
                     <tr>
                         <td>第二志愿</td>
-                        <td>{{ form.first_choice }}</td>
+                        <td>{{ form.secondChoice }}</td>
                     </tr>
                     <tr>
                         <td>联系电话</td>

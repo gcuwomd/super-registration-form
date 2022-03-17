@@ -1,14 +1,16 @@
 export default interface IForm {
-    id: string;
+    id?: string;
     account: string;
     name: string;
-    academy: string;
-    class: string;
-    first_choice: string;
-    second_choice: string;
+    gender: string;
     phone: string;
+    academy: string;
+    sClass: string;
+    dormitory: string;
+    firstChoice: string;
+    secondChoice: string;
     introduction: string;
-    image: string;
+    fileName: string;
     condition?: boolean;
     time?: string;
 }

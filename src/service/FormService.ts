@@ -17,7 +17,7 @@ class FormService {
         return http.get(`${this.api}/${account}`, { headers: authHeader() });
     }
 
-    post(data: IForm): Promise<any> {
+    submit(data: IForm): Promise<any> {
         return http.post(this.api, data);
     }
 }

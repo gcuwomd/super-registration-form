@@ -19,7 +19,7 @@ interface IModal {
     content: string;
 }
 
-const renderList: string[] = [
+const academyList: string[] = [
     '计算机工程学院',
     '管理学院',
     '珠宝学院',
@@ -33,17 +33,20 @@ const departmentList: string[] = [
     '行政秘书部',
 ];
 
+const genderList: string[] = ['男', '女', '非二元性别'];
+
 const data: IForm = reactive({
-    id: '',
     account: '',
     name: '',
-    academy: '',
-    class: '',
-    first_choice: '',
-    second_choice: '',
+    gender: '',
     phone: '',
+    academy: '',
+    sClass: '',
+    dormitory: '',
+    firstChoice: '',
+    secondChoice: '',
     introduction: '',
-    image: '',
+    fileName: '',
     condition: false,
 });
 
@@ -94,7 +97,7 @@ const submitData = () => {
     }
 
     // first_choice
-    if (data.first_choice === '') {
+    if (data.firstChoice === '') {
         status.showModal('注意', '请选择你的第一意向部门!');
         status.allowPost = false;
     }
@@ -137,7 +140,7 @@ const submitData = () => {
             <label>
                 学号
                 <input
-                    v-model="data.id"
+                    v-model="data.account"
                     type="text"
                     placeholder="学号"
                     :aria-invalid="status.validId"
@@ -153,17 +156,53 @@ const submitData = () => {
                 />
             </label>
             <label>
-                学院
-                <select ref="select_box" v-model="data.academy">
+                性别
+                <select v-model="data.gender">
                     <option disabled value="">请选择</option>
-                    <option v-for="(item, index) in renderList" :key="index">
+                    <option v-for="(item, index) in genderList" :key="index">
                         {{ item }}
                     </option>
                 </select>
             </label>
             <label>
+                联系电话
+                <input
+                    v-model="data.phone"
+                    type="text"
+                    placeholder="联系电话"
+                    :aria-invalid="status.validPhone"
+                />
+            </label>
+            <label>
+                学院
+                <select v-model="data.academy">
+                    <option disabled value="">请选择</option>
+                    <option v-for="(item, index) in academyList" :key="index">
+                        {{ item }}
+                    </option>
+                </select>
+            </label>
+            <label>
+                班级
+                <input
+                    v-model="data.sClass"
+                    type="text"
+                    placeholder="班级"
+                    :aria-invalid="status.validName"
+                />
+            </label>
+            <label>
+                宿舍
+                <input
+                    v-model="data.dormitory"
+                    type="text"
+                    placeholder="宿舍"
+                    :aria-invalid="status.validName"
+                />
+            </label>
+            <label>
                 第一意向部门
-                <select ref="select_box" v-model="data.first_choice">
+                <select v-model="data.firstChoice">
                     <option disabled value="">请选择</option>
                     <option
                         v-for="(item, index) in departmentList"
@@ -175,7 +214,7 @@ const submitData = () => {
             </label>
             <label>
                 第二意向部门*
-                <select ref="select_box" v-model="data.second_choice">
+                <select v-model="data.secondChoice">
                     <option disabled value="">请选择</option>
                     <option
                         v-for="(item, index) in departmentList"
