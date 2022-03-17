@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import '@picocss/pico/css/pico.min.css';
 import IForm from '../types/Form';
+import UploadFileService from '../service/UploadFileService';
+import IResponse from '../types/Response';
+import FormService from '../service/FormService';
 
 interface IStatus {
     show: boolean;
@@ -74,8 +77,19 @@ const status: IStatus = reactive({
 });
 
 const submitData = () => {
+    FormService.submit(data)
+        .then((response: any) => {
+            const res: IResponse = response.data;
+            alert(res);
+        })
+        .catch((error) => {
+            alert(error);
+        });
+};
+
+const verifyData = () => {
     // id
-    if (data.id === '' || data.id.match('^[0-9]*$') === null) {
+    if (data.account === '' || data.account.match('^[0-9]*$') === null) {
         status.validId = 'true';
         status.allowPost = false;
     } else {
@@ -126,10 +140,40 @@ const submitData = () => {
     }
     if (status.allowPost) {
         // Post Content
-        console.log(data.name);
     } else {
         status.allowPost = true;
     }
+
+    submitData();
+};
+
+const file = ref();
+
+const uploadFile = () => {
+    const currentFile = file.value.files.item(0);
+
+    if (!currentFile) {
+        alert('请选择一张图片');
+        return false;
+    }
+
+    UploadFileService.upload(currentFile)
+        .then((response: any) => {
+            const res: IResponse = response.data;
+            if (res.code === '1') {
+                alert(res.message);
+                return false;
+            }
+
+            data.fileName = res.data.fileName;
+            alert(res.message);
+            return true;
+        })
+        .catch((error) => {
+            alert(error);
+        });
+
+    return true;
 };
 </script>
 
@@ -225,15 +269,6 @@ const submitData = () => {
                 </select>
             </label>
             <label>
-                联系电话
-                <input
-                    v-model="data.phone"
-                    type="text"
-                    placeholder="联系电话"
-                    :aria-invalid="status.validPhone"
-                />
-            </label>
-            <label>
                 自我介绍
                 <textarea
                     v-model="data.introduction"
@@ -241,10 +276,12 @@ const submitData = () => {
                     :aria-invalid="status.validIntroduction"
                 ></textarea>
             </label>
+
             <label>
                 上传头像
-                <input type="file" accept="image/*" />
+                <input ref="file" type="file" accept="image/*" />
             </label>
+            <button @click="uploadFile">确认上传</button>
 
             <input v-model="data.condition" type="checkbox" role="switch" />
             <span
@@ -275,7 +312,7 @@ const submitData = () => {
                 </article>
             </dialog>
             <br /><br />
-            <button @click="submitData">提交</button>
+            <button @click="verifyData">提交</button>
         </article>
     </div>
 </template>
