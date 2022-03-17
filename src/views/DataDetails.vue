@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import '@picocss/pico/css/pico.min.css';
 import { useRoute } from 'vue-router';
 import FormService from '../service/FormService';
@@ -13,15 +13,20 @@ const form: IForm = reactive({
     id: '',
     account: '',
     name: '',
-    academy: '',
-    class: '',
-    first_choice: '',
-    second_choice: '',
+    gender: '',
     phone: '',
+    academy: '',
+    sClass: '',
+    dormitory: '',
+    firstChoice: '',
+    secondChoice: '',
     introduction: '',
-    image: '',
+    fileName: '',
     time: '',
 });
+
+const imageUrl = ref('');
+const path: string = 'http://127.0.0.1:3310/uploads/';
 
 onMounted(() => {
     FormService.get(account as string)
@@ -34,13 +39,18 @@ onMounted(() => {
             form.id = data.id;
             form.account = data.account;
             form.name = data.name;
+            form.gender = data.gender;
+            form.phone = data.phone;
             form.academy = data.academy;
-            form.class = data.class;
-            form.first_choice = data.first_choice;
-            form.second_choice = data.second_choice;
+            form.sClass = data.sClass;
+            form.dormitory = data.dormitory;
+            form.firstChoice = data.firstChoice;
+            form.secondChoice = data.secondChoice;
             form.introduction = data.introduction;
-            form.image = data.image;
+            form.fileName = data.fileName;
             form.time = data.time;
+
+            imageUrl.value = `${path}${form.fileName}`;
         })
         .catch((error) => {
             alert(error);
@@ -56,7 +66,9 @@ onMounted(() => {
                 <tbody>
                     <tr>
                         <td>头像</td>
-                        <td><img :src="form.image" alt="" /></td>
+                        <td>
+                            <img :src="imageUrl" :alt="imageUrl" />
+                        </td>
                     </tr>
                     <tr>
                         <td>学号</td>
