@@ -7,7 +7,7 @@ class UploadFileService {
         this.api = '/upload';
     }
 
-    upload(file: File) {
+    upload(file: File): Promise<any> {
         const formData = new FormData();
 
         formData.append('file', file);
@@ -19,7 +19,7 @@ class UploadFileService {
         });
     }
 
-    getFiles() {
+    getFiles(): Promise<any> {
         return http.get(this.api);
     }
 }

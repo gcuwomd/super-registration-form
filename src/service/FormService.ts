@@ -9,6 +9,10 @@ class FormService {
         this.api = '/form';
     }
 
+    check(): Promise<any> {
+        return http.get(`${this.api}/check`);
+    }
+
     getAll(): Promise<any> {
         return http.get(this.api, { headers: authHeader() });
     }

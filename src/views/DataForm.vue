@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import '@picocss/pico/css/pico.min.css';
 import IForm from '../types/Form';
 import UploadFileService from '../service/UploadFileService';
@@ -175,6 +175,20 @@ const uploadFile = () => {
 
     return true;
 };
+
+const connect = ref(false);
+
+onMounted(() => {
+    FormService.check()
+        .then((response: any) => {
+            const res: IResponse = response.data;
+
+            if (res.code === '0') {
+                connect.value = true;
+            }
+        })
+        .catch();
+});
 </script>
 
 <template>
@@ -281,7 +295,8 @@ const uploadFile = () => {
                 上传头像
                 <input ref="file" type="file" accept="image/*" />
             </label>
-            <button @click="uploadFile">确认上传</button>
+            <button v-if="!connect" aria-busy="true">正在连接到服务器……</button>
+            <button v-if="connect" @click="uploadFile">确认上传</button>
 
             <input v-model="data.condition" type="checkbox" role="switch" />
             <span
@@ -312,7 +327,8 @@ const uploadFile = () => {
                 </article>
             </dialog>
             <br /><br />
-            <button @click="verifyData">提交</button>
+            <button v-if="!connect" aria-busy="true">正在连接到服务器……</button>
+            <button v-if="connect" @click="verifyData">提交</button>
         </article>
     </div>
 </template>
