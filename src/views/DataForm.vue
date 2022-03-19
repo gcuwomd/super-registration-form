@@ -295,7 +295,7 @@ onMounted(() => {
                 上传头像
                 <input ref="file" type="file" accept="image/*" />
             </label>
-            <button v-if="!connect" aria-busy="true">正在连接到服务器……</button>
+            <button v-if="!connect" aria-busy="true">无法连接到服务器……</button>
             <button v-if="connect" @click="uploadFile">确认上传</button>
 
             <input v-model="data.condition" type="checkbox" role="switch" />
@@ -327,7 +327,7 @@ onMounted(() => {
                 </article>
             </dialog>
             <br /><br />
-            <button v-if="!connect" aria-busy="true">正在连接到服务器……</button>
+            <button v-if="!connect" aria-busy="true">无法连接到服务器……</button>
             <button v-if="connect" @click="verifyData">提交</button>
         </article>
     </div>
