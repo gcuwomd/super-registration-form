@@ -1,25 +1,22 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
+import { useStore } from 'vuex';
+import dialogBox from './DialogBox.vue';
 import '@picocss/pico/css/pico.min.css';
 import IForm from '../types/Form';
 import UploadFileService from '../service/UploadFileService';
 import IResponse from '../types/Response';
 import FormService from '../service/FormService';
+import initDialog from '../service/DialogService';
+
+const store = useStore();
 
 interface IStatus {
-    show: boolean;
     validId: string;
     validName: string;
     validPhone: string;
     validIntroduction: string;
     allowPost: boolean;
-    close: any;
-    showModal: any;
-}
-
-interface IModal {
-    title: string;
-    content: string;
 }
 
 const academyList: string[] = [
@@ -53,37 +50,25 @@ const data: IForm = reactive({
     condition: false,
 });
 
-const modalBox: IModal = reactive({
-    title: '',
-    content: '',
-});
-
 const status: IStatus = reactive({
-    show: false,
     validId: 'null',
     validName: 'null',
     validPhone: 'null',
     validCollege: 'null',
     validIntroduction: 'null',
     allowPost: true,
-    close: () => {
-        status.show = false;
-    },
-    showModal: (title: string, content: string) => {
-        status.show = true;
-        modalBox.title = title;
-        modalBox.content = content;
-    },
 });
 
 const submitData = () => {
     FormService.submit(data)
         .then((response: any) => {
             const res: IResponse = response.data;
-            alert(res);
+            // alert(res);
+            initDialog(store, '注意', String(res));
         })
         .catch((error) => {
-            alert(error);
+            // alert(error);
+            initDialog(store, '注意', error);
         });
 };
 
@@ -106,13 +91,13 @@ const verifyData = () => {
 
     // college
     if (data.academy === '') {
-        status.showModal('注意', '请选择你的学院!');
+        initDialog(store, '注意', '请选择你的学院!');
         status.allowPost = false;
     }
 
     // first_choice
     if (data.firstChoice === '') {
-        status.showModal('注意', '请选择你的第一意向部门!');
+        initDialog(store, '注意', '请选择你的第一意向部门!');
         status.allowPost = false;
     }
 
@@ -136,7 +121,8 @@ const verifyData = () => {
     // condition
     if (data.condition === false) {
         status.allowPost = false;
-        status.showModal('注意', '请检查是否已经同意了报名须知！');
+        initDialog(store, '注意', '请检查是否已经同意了报名须知！');
+        // status.showModal('注意', '请检查是否已经同意了报名须知！');
     }
     if (status.allowPost) {
         // Post Content
@@ -153,7 +139,8 @@ const uploadFile = () => {
     const currentFile = file.value.files.item(0);
 
     if (!currentFile) {
-        alert('请选择一张图片');
+        initDialog(store, '注意', '请选择一张图片');
+        // alert('请选择一张图片');
         return false;
     }
 
@@ -161,16 +148,19 @@ const uploadFile = () => {
         .then((response: any) => {
             const res: IResponse = response.data;
             if (res.code === '1') {
-                alert(res.message);
+                initDialog(store, '注意', res.message);
+                // alert(res.message);
                 return false;
             }
 
             data.fileName = res.data.fileName;
-            alert(res.message);
+            initDialog(store, '注意', res.message);
+            // alert(res.message);
             return true;
         })
         .catch((error) => {
-            alert(error);
+            initDialog(store, '注意', error);
+            // alert(error);
         });
 
     return true;
@@ -303,29 +293,16 @@ onMounted(() => {
                 class="contrast"
                 data-target="modal"
                 @click="
-                    status.showModal(
+                    initDialog(
+                        store,
                         '同意书',
                         '本人同意报名表内所填之「参加名单」参加此夏令营活动。此同意书是为确认参加活动者的家长已详读活动简章，并清楚了解本活动内容及相关规定。活动全程将由本馆工作同仁维护参加者的安全，如参加者因不守规定或不接受辅导而发生意外事件时，将自行负责。家长或报名者于报名时勾选「我已完全阅读并同意以上内容」即同意此报名同意书，未勾选者恕无法报名。'
                     )
                 "
                 >报名须知</span
             >
-            <dialog id="modal" :open="status.show">
-                <article>
-                    <span
-                        href="#"
-                        aria-label="Close"
-                        class="close"
-                        data-target="modal"
-                        @click="status.close"
-                    >
-                    </span>
-                    <h3>{{ modalBox.title }}</h3>
-                    <p>
-                        {{ modalBox.content }}
-                    </p>
-                </article>
-            </dialog>
+
+            <dialogBox></dialogBox>
             <br /><br />
             <button v-if="!connect" aria-busy="true">无法连接到服务器……</button>
             <button v-if="connect" @click="verifyData">提交</button>

@@ -69,7 +69,13 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const publicPages = ['/', '/signin', '/signup'];
+    const publicPages = [
+        '/',
+        '/signin',
+        '/signup',
+        '/details/:account',
+        '/list',
+    ];
     const authRequired = !publicPages.includes(to.path);
     const token = localStorage.getItem('token');
 

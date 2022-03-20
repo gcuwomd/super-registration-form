@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import '@picocss/pico/css/pico.min.css';
 import { reactive } from 'vue';
+import { useStore } from 'vuex';
+import dialogBox from './DialogBox.vue';
 import AuthService from '../service/AuthService';
 import IUser from '../types/User';
 import IResponse from '../types/Response';
 import router from '../router';
+import initDialog from '../service/DialogService';
 
+const store = useStore();
 const data: IUser = reactive({
     account: '',
     password: '',
@@ -18,16 +22,19 @@ const submitData = () => {
             const { code, token } = res;
             if (code === '0') {
                 localStorage.setItem('token', token as string);
-                alert('登录成功');
+                // alert('登录成功');
+                initDialog(store, '消息', '登录成功');
                 setTimeout(() => {
                     router.push('list');
                 }, 1000);
             } else {
-                alert('账号或密码错误');
+                // alert('账号或密码错误');
+                initDialog(store, '错误', '账号或密码错误');
             }
         })
         .catch((e: string) => {
-            alert(e);
+            // alert(e);
+            initDialog(store, '错误', e);
         });
 };
 </script>
@@ -63,5 +70,6 @@ const submitData = () => {
             </label>
             <label><button @click="submitData">登录</button></label>
         </article>
+        <dialogBox></dialogBox>
     </div>
 </template>

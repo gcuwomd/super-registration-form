@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
 import '@picocss/pico/css/pico.min.css';
+import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import FormService from '../service/FormService';
 import IForm from '../types/Form';
 import IResponse from '../types/Response';
+import dialogBox from './DialogBox.vue';
+import initDialog from '../service/DialogService';
 
+const store = useStore();
 const route = useRoute();
+
 const { account } = route.params;
 
 const form: IForm = reactive({
@@ -53,14 +58,23 @@ onMounted(() => {
             imageUrl.value = `${path}${form.fileName}`;
         })
         .catch((error) => {
-            alert(error);
+            // alert(error);
+            initDialog(store, '注意', error);
         });
 });
 </script>
 
 <template>
     <div class="container centera">
-        <h3>报名信息</h3>
+        <label
+            ><router-link to="/list" style="margin-right: 15px"
+                ><ion-icon
+                    name="chevron-back-circle-outline"
+                    style="font-size: 30px"
+                ></ion-icon
+            ></router-link>
+            <h1 style="display: inline-block">报名信息</h1></label
+        >
         <article>
             <table>
                 <tbody>
@@ -109,5 +123,6 @@ onMounted(() => {
                 </tbody>
             </table>
         </article>
+        <dialogBox></dialogBox>
     </div>
 </template>

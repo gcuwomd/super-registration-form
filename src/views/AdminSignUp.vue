@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import '@picocss/pico/css/pico.min.css';
 import { reactive } from 'vue';
+import { useStore } from 'vuex';
+import dialogBox from './DialogBox.vue';
 import AuthService from '../service/AuthService';
 import IResponse from '../types/Response';
+import initDialog from '../service/DialogService';
 
+const store = useStore();
 interface IForm {
     account: string;
     name: string;
@@ -23,32 +27,38 @@ const submitForm = () => {
         .then((response: any) => {
             const res: IResponse = response.data;
             if (res.code === '1') {
-                alert(res.message);
+                // alert(res.message);
+                initDialog(store, '注意', res.message);
                 return false;
             }
-            alert(res.message);
+            // alert(res.message);
+            initDialog(store, '注意', res.message);
             return true;
         })
         .catch((error: any) => {
-            alert(error);
+            initDialog(store, '错误', error);
         });
 };
 
 const verifyForm = () => {
     if (form.account.length < 0 || form.account.length !== 12) {
-        alert('学号格式有误');
+        // alert('学号格式有误');
+        initDialog(store, '错误', '学号格式有误');
         return false;
     }
     if (form.name.length < 2) {
-        alert('姓名格式有误');
+        // alert('姓名格式有误');
+        initDialog(store, '错误', '姓名格式有误');
         return false;
     }
     if (form.password.length < 6) {
-        alert('请设置长度大于 6 的密码');
+        // alert('请设置长度大于 6 的密码');
+        initDialog(store, '错误', '请设置长度大于 6 的密码');
         return false;
     }
     if (form.password !== form.confirm) {
-        alert('两次密码输入不一致');
+        // alert('两次密码输入不一致');
+        initDialog(store, '错误', '两次密码输入不一致');
         return false;
     }
     submitForm();
@@ -107,5 +117,6 @@ const verifyForm = () => {
 
             <label><button @click="verifyForm">注册</button></label>
         </article>
+        <dialogBox></dialogBox>
     </div>
 </template>
