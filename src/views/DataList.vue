@@ -55,6 +55,21 @@ const prePage = () => {
     dataShow.value = groupData.value[(currPage.value -= 1)];
     return true;
 };
+
+const downloadCsv = () => {
+    FormService.downloadCsv()
+        .then((response: any) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'form.csv');
+            document.body.appendChild(link);
+            link.click();
+        })
+        .catch((err) => {
+            alert(err);
+        });
+};
 </script>
 
 <template>
@@ -74,38 +89,78 @@ const prePage = () => {
             ></a>
         </article>
         <article>
-            <table>
+            <table role="grid">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">学号</th>
                         <th scope="col">姓名</th>
+                        <th scope="col">性别</th>
+                        <th scope="col">电话</th>
                         <th scope="col">学院</th>
                         <th scope="col">班级</th>
-                        <th scope="col">报名时间</th>
+                        <th scope="col">宿舍</th>
+                        <th scope="col">第一意向</th>
+                        <th scope="col">第二意向</th>
+                        <th scope="col">提交时间</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(data, index) in dataShow" :key="index">
-                        <td>{{ index + 1 }}</td>
                         <td>
-                            <router-link :to="`/details/${data.account}`">{{
-                                data.account
-                            }}</router-link>
+                            <router-link :to="`/details/${data.id}`">
+                                {{ index + 1 }}
+                            </router-link>
+                        </td>
+                        <td>
+                            {{ data.account }}
                         </td>
                         <td>{{ data.name }}</td>
+                        <td>{{ data.gender }}</td>
+                        <td>{{ data.phone }}</td>
                         <td>{{ data.academy }}</td>
                         <td>{{ data.sClass }}</td>
+                        <td>{{ data.dormitory }}</td>
+                        <td>{{ data.firstChoice }}</td>
+                        <td>{{ data.secondChoice }}</td>
                         <td>{{ data.time }}</td>
                     </tr>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">学号</th>
+                        <th scope="col">姓名</th>
+                        <th scope="col">性别</th>
+                        <th scope="col">电话</th>
+                        <th scope="col">学院</th>
+                        <th scope="col">班级</th>
+                        <th scope="col">宿舍</th>
+                        <th scope="col">第一意向</th>
+                        <th scope="col">第二意向</th>
+                        <th scope="col">提交时间</th>
+                    </tr>
+                </tfoot>
             </table>
+
+            <div>当前第 {{ currPage + 1 }} 页，共 {{ pageNum }} 页</div>
         </article>
         <div class="grid">
             <button @click="prePage">上一页</button>
             <button @click="nextPage">下一页</button>
         </div>
+
         <div>当前第 {{ currPage + 1 }} 页，共 {{ pageNum }} 页</div>
+
+        <button @click="downloadCsv">一键导出数据</button>
         <dialogBox></dialogBox>
     </div>
 </template>
+
+<style scoped>
+table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+</style>

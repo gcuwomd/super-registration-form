@@ -31,7 +31,7 @@ const form: IForm = reactive({
 });
 
 const imageUrl = ref('');
-const path: string = 'http://127.0.0.1:3310/uploads/';
+const path: string = 'http://127.0.0.1:3310/static/uploads/';
 
 onMounted(() => {
     FormService.get(account as string)

@@ -2,14 +2,11 @@ import http from '../utils/http';
 import IUser from '../types/User';
 
 class AuthService {
-    admin: string;
-
     signin: string;
 
     signup: string;
 
     constructor() {
-        this.admin = '/auth';
         this.signin = '/signin';
         this.signup = '/signup';
     }
