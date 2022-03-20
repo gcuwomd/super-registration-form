@@ -17,12 +17,19 @@ class FormService {
         return http.get(this.api, { headers: authHeader() });
     }
 
-    get(account: string): Promise<any> {
-        return http.get(`${this.api}/${account}`, { headers: authHeader() });
+    get(id: string): Promise<any> {
+        return http.get(`${this.api}/${id}`, { headers: authHeader() });
     }
 
     submit(data: IForm): Promise<any> {
         return http.post(this.api, data);
+    }
+
+    downloadCsv(): Promise<any> {
+        return http.get(`${this.api}/csv`, {
+            headers: authHeader(),
+            responseType: 'blob',
+        });
     }
 }
 
