@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import '@picocss/pico/css/pico.min.css';
 import { reactive } from 'vue';
-import { useStore } from 'vuex';
-import dialogBox from './DialogBox.vue';
 import AuthService from '../service/AuthService';
 import IResponse from '../types/Response';
-import initDialog from '../service/DialogService';
 
-const store = useStore();
+import DialogBox from '../components/DialogBox/index';
+
 interface IForm {
     account: string;
     name: string;
@@ -27,42 +25,36 @@ const submitForm = () => {
         .then((response: any) => {
             const res: IResponse = response.data;
             if (res.code === '1') {
-                // alert(res.message);
-                initDialog(store, '注意', res.message);
+                DialogBox(res.message);
                 return false;
             }
-            // alert(res.message);
-            initDialog(store, '注意', res.message);
+            DialogBox(res.message);
             return true;
         })
         .catch((error: any) => {
-            initDialog(store, '错误', error);
+            DialogBox(error);
         });
 };
 
 const verifyForm = () => {
-    if (form.account.length < 0 || form.account.length !== 12) {
-        // alert('学号格式有误');
-        initDialog(store, '错误', '学号格式有误');
+    if (form.account.length !== 12) {
+        DialogBox('请输入正确格式的学号');
         return false;
     }
     if (form.name.length < 2) {
-        // alert('姓名格式有误');
-        initDialog(store, '错误', '姓名格式有误');
+        DialogBox('请输入正确格式的姓名');
         return false;
     }
     if (form.password.length < 6) {
-        // alert('请设置长度大于 6 的密码');
-        initDialog(store, '错误', '请设置长度大于 6 的密码');
+        DialogBox('请设置长度大于 6 的密码');
         return false;
     }
     if (form.password !== form.confirm) {
-        // alert('两次密码输入不一致');
-        initDialog(store, '错误', '两次密码输入不一致');
+        DialogBox('两次密码输入不一致');
         return false;
     }
-    submitForm();
-    return true;
+
+    return submitForm();
 };
 </script>
 
@@ -76,7 +68,7 @@ const verifyForm = () => {
                     <input
                         v-model="form.account"
                         type="text"
-                        placeholder="请输入学号"
+                        placeholder="学号将作为登录账号"
                         required
                     />
                 </label>
@@ -117,6 +109,5 @@ const verifyForm = () => {
 
             <label><button @click="verifyForm">注册</button></label>
         </article>
-        <dialogBox></dialogBox>
     </div>
 </template>

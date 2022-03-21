@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import '@picocss/pico/css/pico.min.css';
 import { reactive } from 'vue';
-import { useStore } from 'vuex';
-import dialogBox from './DialogBox.vue';
 import AuthService from '../service/AuthService';
 import IUser from '../types/User';
 import IResponse from '../types/Response';
 import router from '../router';
-import initDialog from '../service/DialogService';
 
-const store = useStore();
+import DialogBox from '../components/DialogBox/index';
+
 const data: IUser = reactive({
     account: '',
     password: '',
@@ -22,20 +20,30 @@ const submitData = () => {
             const { code, token } = res;
             if (code === '0') {
                 localStorage.setItem('token', token as string);
-                // alert('登录成功');
-                initDialog(store, '消息', '登录成功');
+                DialogBox('登录成功');
+
                 setTimeout(() => {
                     router.push('list');
-                }, 1000);
+                }, 2500);
             } else {
-                // alert('账号或密码错误');
-                initDialog(store, '错误', '账号或密码错误');
+                DialogBox('用户名或密码错误');
             }
         })
-        .catch((e: string) => {
-            // alert(e);
-            initDialog(store, '错误', e);
+        .catch((error: string) => {
+            DialogBox(error);
         });
+};
+
+const verifyData = () => {
+    if (data.account.length !== 12) {
+        DialogBox('请输入正确格式的学号');
+        return false;
+    }
+    if (data.password.length < 6) {
+        DialogBox('请输入正确格式的密码');
+        return false;
+    }
+    return submitData();
 };
 </script>
 
@@ -68,8 +76,7 @@ const submitData = () => {
             <label>
                 <router-link to="/signup">注册</router-link>
             </label>
-            <label><button @click="submitData">登录</button></label>
+            <label><button @click="verifyData">登录</button></label>
         </article>
-        <dialogBox></dialogBox>
     </div>
 </template>

@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
 import '@picocss/pico/css/pico.min.css';
-import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import FormService from '../service/FormService';
 import IForm from '../types/Form';
 import IResponse from '../types/Response';
-import dialogBox from './DialogBox.vue';
-import initDialog from '../service/DialogService';
 
-const store = useStore();
+import DialogBox from '../components/DialogBox';
+
 const route = useRoute();
 
 const { account } = route.params;
@@ -20,6 +18,7 @@ const form: IForm = reactive({
     name: '',
     gender: '',
     phone: '',
+    wechat: '',
     academy: '',
     sClass: '',
     dormitory: '',
@@ -58,23 +57,16 @@ onMounted(() => {
             imageUrl.value = `${path}${form.fileName}`;
         })
         .catch((error) => {
-            // alert(error);
-            initDialog(store, '注意', error);
+            DialogBox(error);
         });
 });
 </script>
 
 <template>
     <div class="container centera">
-        <label
-            ><router-link to="/list" style="margin-right: 15px"
-                ><ion-icon
-                    name="chevron-back-circle-outline"
-                    style="font-size: 30px"
-                ></ion-icon
-            ></router-link>
-            <h1 style="display: inline-block">报名信息</h1></label
-        >
+        <h1 style="display: inline-block">报名信息</h1>
+        <router-link to="/list"><button>返回</button></router-link>
+
         <article>
             <table>
                 <tbody>
@@ -93,12 +85,28 @@ onMounted(() => {
                         <td>{{ form.name }}</td>
                     </tr>
                     <tr>
+                        <td>性别</td>
+                        <td>{{ form.gender }}</td>
+                    </tr>
+                    <tr>
+                        <td>联系电话</td>
+                        <td>{{ form.phone }}</td>
+                    </tr>
+                    <tr>
+                        <td>微信</td>
+                        <td>{{ form.wechat }}</td>
+                    </tr>
+                    <tr>
                         <td>学院</td>
                         <td>{{ form.academy }}</td>
                     </tr>
                     <tr>
                         <td>班级</td>
-                        <td>{{ form.sclass }}</td>
+                        <td>{{ form.sClass }}</td>
+                    </tr>
+                    <tr>
+                        <td>宿舍</td>
+                        <td>{{ form.dormitory }}</td>
                     </tr>
                     <tr>
                         <td>第一志愿</td>
@@ -107,10 +115,6 @@ onMounted(() => {
                     <tr>
                         <td>第二志愿</td>
                         <td>{{ form.secondChoice }}</td>
-                    </tr>
-                    <tr>
-                        <td>联系电话</td>
-                        <td>{{ form.phone }}</td>
                     </tr>
                     <tr>
                         <td>自我介绍</td>
@@ -123,6 +127,6 @@ onMounted(() => {
                 </tbody>
             </table>
         </article>
-        <dialogBox></dialogBox>
+        <router-link to="/list"><button>返回</button></router-link>
     </div>
 </template>

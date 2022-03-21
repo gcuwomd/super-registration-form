@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref, Ref } from 'vue';
-import { useStore } from 'vuex';
-import dialogBox from './DialogBox.vue';
 import FormService from '../service/FormService';
 import '@picocss/pico/css/pico.min.css';
 import IResponse from '../types/Response';
 import IForm from '../types/Form';
-import initDialog from '../service/DialogService';
 
-const store = useStore();
+import DialogBox from '../components/DialogBox';
+
 const dataList = ref<IForm[]>([]);
 
 const groupData = ref<any>([]);
@@ -35,8 +33,7 @@ onMounted(() => {
             dataShow.value = groupData.value[currPage.value];
         })
         .catch((error) => {
-            // alert(error);
-            initDialog(store, '错误', error);
+            DialogBox(error);
         });
 });
 
@@ -67,7 +64,7 @@ const downloadCsv = () => {
             link.click();
         })
         .catch((err) => {
-            alert(err);
+            DialogBox(err);
         });
 };
 </script>
@@ -76,17 +73,11 @@ const downloadCsv = () => {
     <div class="container">
         <h3>报名列表</h3>
         <article>
-            <input
-                type="text"
-                placeholder="搜索信息"
-                style="width: 92%; margin-right: 2px"
-            />
-            <a href="#"
-                ><ion-icon
-                    name="search-circle-outline"
-                    style="font-size: 150%"
-                ></ion-icon
-            ></a>
+            <div class="grid">
+                <select></select>
+                <input type="text" placeholder="搜索信息" />
+                <button>搜索</button>
+            </div>
         </article>
         <article>
             <table role="grid">
@@ -150,10 +141,7 @@ const downloadCsv = () => {
             <button @click="nextPage">下一页</button>
         </div>
 
-        <div>当前第 {{ currPage + 1 }} 页，共 {{ pageNum }} 页</div>
-
         <button @click="downloadCsv">一键导出数据</button>
-        <dialogBox></dialogBox>
     </div>
 </template>
 

@@ -4,6 +4,7 @@ export default interface IForm {
     name: string;
     gender: string;
     phone: string;
+    wechat: string;
     academy: string;
     sClass: string;
     dormitory: string;
