@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref, Ref } from 'vue';
+import { onMounted, ref, Ref, watch } from 'vue';
 import FormService from '../service/FormService';
 import '@picocss/pico/css/pico.min.css';
 import IResponse from '../types/Response';
 import IForm from '../types/Form';
 
-import DialogBox from '../components/DialogBox';
+import SearchBar from '../components/SearchBar.vue';
 
 const dataList = ref<IForm[]>([]);
 
@@ -21,20 +21,25 @@ onMounted(() => {
             const res: IResponse = response.data;
 
             dataList.value = res.data as IForm[];
-
-            pageNum.value =
-                Math.ceil(dataList.value.length / pageSize.value) || 1;
-            for (let i = 0; i < pageNum.value; i += 1) {
-                groupData.value[i] = dataList.value.slice(
-                    pageSize.value * i,
-                    pageSize.value * (i + 1)
-                );
-            }
-            dataShow.value = groupData.value[currPage.value];
         })
-        .catch((error) => {
-            DialogBox(error);
-        });
+        .catch(() => {});
+});
+
+const groupPage = () => {
+    pageNum.value = Math.ceil(dataList.value.length / pageSize.value) || 1;
+    for (let i = 0; i < pageNum.value; i += 1) {
+        groupData.value[i] = dataList.value.slice(
+            pageSize.value * i,
+            pageSize.value * (i + 1)
+        );
+    }
+    dataShow.value = groupData.value[currPage.value];
+};
+
+watch(dataList, () => {
+    groupPage();
+    currPage.value = 0;
+    dataShow.value = groupData.value[currPage.value];
 });
 
 const nextPage = () => {
@@ -63,22 +68,22 @@ const downloadCsv = () => {
             document.body.appendChild(link);
             link.click();
         })
-        .catch((err) => {
-            DialogBox(err);
-        });
+        .catch(() => {});
+};
+
+const updateDataList = (newDataList: IForm[]) => {
+    dataList.value = newDataList as IForm[];
+    return true;
 };
 </script>
 
 <template>
     <div class="container">
-        <h3>报名列表</h3>
-        <article>
-            <div class="grid">
-                <select></select>
-                <input type="text" placeholder="搜索信息" />
-                <button>搜索</button>
-            </div>
-        </article>
+        <div style="text-align: center">
+            <br />
+            <h2>报名一览</h2>
+        </div>
+        <SearchBar @update="updateDataList"></SearchBar>
         <article>
             <table role="grid">
                 <thead>
