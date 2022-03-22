@@ -6,8 +6,6 @@ import FormService from '../service/FormService';
 import IForm from '../types/Form';
 import IResponse from '../types/Response';
 
-import DialogBox from '../components/DialogBox';
-
 const route = useRoute();
 
 const { account } = route.params;
@@ -56,9 +54,7 @@ onMounted(() => {
 
             imageUrl.value = `${path}${form.fileName}`;
         })
-        .catch((error) => {
-            DialogBox(error);
-        });
+        .catch(() => {});
 });
 </script>
 

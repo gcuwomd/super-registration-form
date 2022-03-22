@@ -46,9 +46,7 @@ const submitData = () => {
             const res: IResponse = response.data;
             DialogBox(res.message);
         })
-        .catch((error) => {
-            DialogBox(error);
-        });
+        .catch(() => {});
 };
 
 const verifyData = () => {
@@ -137,9 +135,7 @@ const uploadFile = () => {
             DialogBox(res.message);
             return true;
         })
-        .catch((error) => {
-            DialogBox(error);
-        });
+        .catch(() => {});
 
     return true;
 };
@@ -155,13 +151,12 @@ onMounted(() => {
                 connect.value = true;
             }
         })
-        .catch();
+        .catch(() => {});
 });
 </script>
 
 <template>
     <div class="container">
-        <h3>报名</h3>
         <article>
             <label>
                 学号

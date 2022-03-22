@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import router from '../router';
+import DialogBox from '../components/DialogBox';
 
 const api: AxiosInstance = axios.create({
     baseURL: 'http://localhost:3310/registration',
@@ -31,11 +32,20 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         // 2xx 外的状态码
-        if (error.response.status === 401) {
-            localStorage.removeItem('token');
+        if (error.response) {
+            if (error.response.status === 401) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('account');
 
-            router.push('/signin');
+                DialogBox('登录状态已过期，请重新登录');
+                setTimeout(() => {
+                    router.push('/signin');
+                }, 2100);
+            }
+        } else {
+            DialogBox('网络连接错误，请稍后重试');
         }
+
         return Promise.reject(error);
     }
 );

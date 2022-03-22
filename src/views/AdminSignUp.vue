@@ -31,9 +31,7 @@ const submitForm = () => {
             DialogBox(res.message);
             return true;
         })
-        .catch((error: any) => {
-            DialogBox(error);
-        });
+        .catch(() => {});
 };
 
 const verifyForm = () => {
