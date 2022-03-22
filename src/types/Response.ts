@@ -3,4 +3,5 @@ export default interface IResponse {
     message: string;
     data: any;
     token?: string;
+    account?: string;
 }

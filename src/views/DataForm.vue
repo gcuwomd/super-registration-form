@@ -4,25 +4,12 @@ import '@picocss/pico/css/pico.min.css';
 import IForm from '../types/Form';
 import UploadFileService from '../service/UploadFileService';
 import IResponse from '../types/Response';
+import IGender from '../types/Gender';
+import IAcademy from '../types/Academy';
+import IDepartment from '../types/Department';
 import FormService from '../service/FormService';
 
 import DialogBox from '../components/DialogBox/index';
-
-const academyList: string[] = [
-    '计算机工程学院',
-    '管理学院',
-    '珠宝学院',
-    '外国语学院',
-];
-
-const departmentList: string[] = [
-    '网站运维部',
-    '网络运维部',
-    '信息化运维部',
-    '行政秘书部',
-];
-
-const genderList: string[] = ['男', '女', '非二元性别'];
 
 const data: IForm = reactive({
     account: '',
@@ -157,6 +144,10 @@ onMounted(() => {
 
 <template>
     <div class="container">
+        <div style="text-align: center">
+            <br />
+            <h2>填写信息</h2>
+        </div>
         <article>
             <label>
                 学号
@@ -178,7 +169,7 @@ onMounted(() => {
                 性别
                 <select v-model="data.gender">
                     <option disabled value="">请选择性别</option>
-                    <option v-for="(item, index) in genderList" :key="index">
+                    <option v-for="(item, index) in IGender" :key="index">
                         {{ item }}
                     </option>
                 </select>
@@ -203,7 +194,7 @@ onMounted(() => {
                 学院
                 <select v-model="data.academy">
                     <option disabled value="">请选择学院</option>
-                    <option v-for="(item, index) in academyList" :key="index">
+                    <option v-for="(item, index) in IAcademy" :key="index">
                         {{ item }}
                     </option>
                 </select>
@@ -221,17 +212,14 @@ onMounted(() => {
                 <input
                     v-model="data.dormitory"
                     type="text"
-                    placeholder="宿舍"
+                    placeholder="请输入宿舍"
                 />
             </label>
             <label>
                 第一意向部门
                 <select v-model="data.firstChoice">
                     <option disabled value="">请选择第一意向部门</option>
-                    <option
-                        v-for="(item, index) in departmentList"
-                        :key="index"
-                    >
+                    <option v-for="(item, index) in IDepartment" :key="index">
                         {{ item }}
                     </option>
                 </select>
@@ -240,10 +228,7 @@ onMounted(() => {
                 第二意向部门*
                 <select v-model="data.secondChoice">
                     <option disabled value="">请选择第二意向部门</option>
-                    <option
-                        v-for="(item, index) in departmentList"
-                        :key="index"
-                    >
+                    <option v-for="(item, index) in IDepartment" :key="index">
                         {{ item }}
                     </option>
                 </select>
