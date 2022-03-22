@@ -58,7 +58,15 @@ const verifyForm = () => {
 
 <template>
     <div class="container centera">
-        <h3>Admin Signup</h3>
+        <div style="text-align: center">
+            <br />
+            <h2>创建 WOMD ID</h2>
+            <p>
+                只需一个 WOMD
+                ID，即可管理学生网络与信息工作委员会招新系统的所有内容。
+            </p>
+        </div>
+
         <article>
             <div class="grid">
                 <label>
@@ -66,7 +74,7 @@ const verifyForm = () => {
                     <input
                         v-model="form.account"
                         type="text"
-                        placeholder="学号将作为登录账号"
+                        placeholder="学号将作为 WOMD ID"
                         required
                     />
                 </label>
@@ -100,6 +108,12 @@ const verifyForm = () => {
                     required
                 />
             </label>
+
+            <span>
+                WOMD ID
+                信息被用于确保能够安全登录并访问数据。出于安全性、支持和报告的目的，WOMD
+                会记录某些使用情况数据。</span
+            >
 
             <label>
                 <router-link to="/signin">登录</router-link>

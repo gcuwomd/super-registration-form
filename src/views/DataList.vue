@@ -87,9 +87,7 @@ const downloadCsv = () => {
                         <th scope="col">学号</th>
                         <th scope="col">姓名</th>
                         <th scope="col">性别</th>
-                        <th scope="col">电话</th>
                         <th scope="col">学院</th>
-                        <th scope="col">班级</th>
                         <th scope="col">宿舍</th>
                         <th scope="col">第一意向</th>
                         <th scope="col">第二意向</th>
@@ -100,7 +98,7 @@ const downloadCsv = () => {
                     <tr v-for="(data, index) in dataShow" :key="index">
                         <td>
                             <router-link :to="`/details/${data.id}`">
-                                {{ index + 1 }}
+                                {{ data.id }}
                             </router-link>
                         </td>
                         <td>
@@ -108,9 +106,7 @@ const downloadCsv = () => {
                         </td>
                         <td>{{ data.name }}</td>
                         <td>{{ data.gender }}</td>
-                        <td>{{ data.phone }}</td>
                         <td>{{ data.academy }}</td>
-                        <td>{{ data.sClass }}</td>
                         <td>{{ data.dormitory }}</td>
                         <td>{{ data.firstChoice }}</td>
                         <td>{{ data.secondChoice }}</td>
@@ -123,9 +119,7 @@ const downloadCsv = () => {
                         <th scope="col">学号</th>
                         <th scope="col">姓名</th>
                         <th scope="col">性别</th>
-                        <th scope="col">电话</th>
                         <th scope="col">学院</th>
-                        <th scope="col">班级</th>
                         <th scope="col">宿舍</th>
                         <th scope="col">第一意向</th>
                         <th scope="col">第二意向</th>
@@ -134,14 +128,16 @@ const downloadCsv = () => {
                 </tfoot>
             </table>
 
-            <div>当前第 {{ currPage + 1 }} 页，共 {{ pageNum }} 页</div>
+            <div style="float: right">
+                当前第 {{ currPage + 1 }} 页，共 {{ pageNum }} 页
+            </div>
         </article>
         <div class="grid">
             <button @click="prePage">上一页</button>
             <button @click="nextPage">下一页</button>
         </div>
 
-        <button @click="downloadCsv">一键导出数据</button>
+        <button @click="downloadCsv">一键导出全部数据</button>
     </div>
 </template>
 

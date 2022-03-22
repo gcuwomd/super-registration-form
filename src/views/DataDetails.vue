@@ -60,14 +60,17 @@ onMounted(() => {
 
 <template>
     <div class="container centera">
-        <h1 style="display: inline-block">报名信息</h1>
+        <div style="text-align: center">
+            <br />
+            <h2>详细信息</h2>
+        </div>
         <router-link to="/list"><button>返回</button></router-link>
 
         <article>
             <table>
                 <tbody>
                     <tr>
-                        <td>头像</td>
+                        <td>个性照</td>
                         <td>
                             <img :src="imageUrl" :alt="imageUrl" />
                         </td>
@@ -126,3 +129,9 @@ onMounted(() => {
         <router-link to="/list"><button>返回</button></router-link>
     </div>
 </template>
+
+<style scoped>
+td {
+    white-space: nowrap;
+}
+</style>

@@ -257,30 +257,30 @@ onMounted(() => {
             </label>
 
             <label>
-                上传自拍
-                <input ref="file" type="file" accept="image/*" />
+                上传个性照
+                <div class="grid">
+                    <input ref="file" type="file" accept="image/*" />
+                    <button v-if="connect" @click="uploadFile">上传图片</button>
+                    <button v-if="!connect" aria-busy="true">
+                        无法连接到服务器，请刷新重试……
+                    </button>
+                </div>
             </label>
-            <button v-if="!connect" aria-busy="true">
-                无法连接到服务器，请刷新重试……
-            </button>
-            <button v-if="connect" @click="uploadFile">确认上传</button>
 
-            <input v-model="data.condition" type="checkbox" role="switch" />
-            <span
-                class="contrast"
-                data-target="modal"
-                @click="
-                    DialogBox(
-                        '本人同意报名表内所填之「参加名单」参加此夏令营活动。此同意书是为确认参加活动者的家长已详读活动简章，并清楚了解本活动内容及相关规定。活动全程将由本馆工作同仁维护参加者的安全，如参加者因不守规定或不接受辅导而发生意外事件时，将自行负责。家长或报名者于报名时勾选「我已完全阅读并同意以上内容」即同意此报名同意书，未勾选者恕无法报名。'
-                    )
-                "
-                >报名须知</span
-            >
+            <span v-show="connect">
+                <input v-model="data.condition" type="checkbox" role="switch" />
+                <span>
+                    以上信息被用于确保 WOMD
+                    能够安全访问数据。出于安全性、支持和报告的目的，WOMD
+                    会记录某些使用情况数据。
+                </span>
+            </span>
+
             <br /><br />
             <button v-if="!connect" aria-busy="true">
                 无法连接到服务器，请刷新重试……
             </button>
-            <button v-if="connect" @click="verifyData">提交</button>
+            <button v-if="connect" @click.once="verifyData">提交</button>
         </article>
     </div>
 </template>
