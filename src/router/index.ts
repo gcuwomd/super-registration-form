@@ -3,7 +3,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 const Form = () => import('../views/DataForm.vue');
 const List = () => import('../views/DataList.vue');
 const Details = () => import('../views/DataDetails.vue');
-const Login = () => import('../views/AdminLogin.vue');
+const Signin = () => import('../views/AdminSignIn.vue');
 const Signup = () => import('../views/AdminSignUp.vue');
 
 const routes: Array<RouteRecordRaw> = [
@@ -37,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/signin',
         name: 'signin',
-        component: Login,
+        component: Signin,
         meta: {
             title: 'signin',
             url: '/signin',
