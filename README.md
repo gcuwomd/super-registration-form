@@ -4,6 +4,15 @@
 
 The registration form based on Vue3 and TypeScript.
 
+## Features
+
+```md
+- [ ] form
+- [ ] list
+- [ ] details
+- [ ] login / logout
+```
+
 ## Getting started
 
 ```bash
