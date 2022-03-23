@@ -1,7 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import SingleFooter from './components/SingleFooter.vue';
+</script>
 
 <template>
     <router-view></router-view>
+    <SingleFooter></SingleFooter>
 </template>
 
 <style lang="scss">
