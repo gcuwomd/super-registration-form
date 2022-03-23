@@ -3,7 +3,7 @@ import router from '../router';
 import DialogBox from '../components/DialogBox';
 
 const api: AxiosInstance = axios.create({
-    baseURL: 'http://localhost:3310/registration',
+    baseURL: 'http://10.1.2.217:3310/registration',
     headers: {
         'Content-type': 'application/json',
     },

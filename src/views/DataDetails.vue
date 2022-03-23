@@ -27,7 +27,7 @@ const form: IForm = reactive({
 });
 
 const imageUrl = ref('');
-const path: string = 'http://127.0.0.1:3310/static/uploads/';
+const path: string = 'http://10.1.2.217:3310/static/uploads/';
 
 onMounted(() => {
     FormService.get(account as string)
@@ -42,6 +42,7 @@ onMounted(() => {
             form.name = data.name;
             form.gender = data.gender;
             form.phone = data.phone;
+            form.wechat = data.wechat;
             form.academy = data.academy;
             form.sClass = data.sClass;
             form.dormitory = data.dormitory;

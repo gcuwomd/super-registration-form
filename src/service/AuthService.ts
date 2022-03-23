@@ -7,8 +7,8 @@ class AuthService {
     signup: string;
 
     constructor() {
-        this.signin = '/signin';
-        this.signup = '/signup';
+        this.signin = '/admin/signin';
+        this.signup = '/admin/signup';
     }
 
     login(user: IUser): Promise<any> {
