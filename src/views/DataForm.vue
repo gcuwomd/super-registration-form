@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
-import '@picocss/pico/css/pico.min.css';
 import IForm from '../types/Form';
 import UploadFileService from '../service/UploadFileService';
 import IResponse from '../types/Response';
@@ -27,11 +26,29 @@ const data: IForm = reactive({
     condition: false,
 });
 
+const resetData = () => {
+    data.account = '';
+    data.name = '';
+    data.gender = '';
+    data.phone = '';
+    data.wechat = '';
+    data.academy = '';
+    data.sClass = '';
+    data.dormitory = '';
+    data.firstChoice = '';
+    data.secondChoice = '';
+    data.introduction = '';
+    data.fileName = '';
+    data.condition = false;
+};
+
 const submitData = () => {
     FormService.submit(data)
         .then((response: any) => {
             const res: IResponse = response.data;
             DialogBox(res.message);
+
+            resetData();
         })
         .catch(() => {});
 };
@@ -265,7 +282,7 @@ onMounted(() => {
             <button v-if="!connect" aria-busy="true">
                 无法连接到服务器，请刷新重试……
             </button>
-            <button v-if="connect" @click.once="verifyData">提交</button>
+            <button v-if="connect" @click="verifyData">提交</button>
         </article>
     </div>
 </template>

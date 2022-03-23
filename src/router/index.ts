@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 
+const Home = () => import('../views/HomePage.vue');
 const Form = () => import('../views/DataForm.vue');
 const List = () => import('../views/DataList.vue');
 const Details = () => import('../views/DataDetails.vue');
@@ -9,11 +10,20 @@ const Signup = () => import('../views/AdminSignUp.vue');
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
+        name: 'home',
+        component: Home,
+        meta: {
+            title: 'home',
+            url: '/',
+        },
+    },
+    {
+        path: '/form',
         name: 'form',
         component: Form,
         meta: {
             title: 'form',
-            url: '/',
+            url: '/form',
         },
     },
     {
@@ -69,7 +79,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const publicPages = ['/', '/signin', '/signup'];
+    const publicPages = ['/', '/form', '/signin', '/signup'];
     const authRequired = !publicPages.includes(to.path);
     const token = localStorage.getItem('token');
 
