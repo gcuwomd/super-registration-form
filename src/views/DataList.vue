@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, Ref, watch } from 'vue';
 import FormService from '../service/FormService';
-import '@picocss/pico/css/pico.min.css';
 import IResponse from '../types/Response';
 import IForm from '../types/Form';
 

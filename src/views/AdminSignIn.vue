@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import '@picocss/pico/css/pico.min.css';
 import { reactive } from 'vue';
 import AuthService from '../service/AuthService';
 import IUser from '../types/User';

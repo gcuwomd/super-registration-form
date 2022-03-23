@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
-import '@picocss/pico/css/pico.min.css';
 import IForm from '../types/Form';
 import UploadFileService from '../service/UploadFileService';
 import IResponse from '../types/Response';
